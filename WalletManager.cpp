@@ -1,7 +1,7 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
-//#include "Currency.h"
+#include "Currency.h"
 #include "Wallet.h"
 
 using namespace std;
@@ -9,13 +9,13 @@ using namespace std;
 int main()
 {
 	int currencyCount = 0;
-	//Wallet w;
-	WalletPanel(currencyCount);
-
+	Currency c[5] = { Dollar() , Euro(), Yen(), Rupee(), Yuan()};
+	Wallet w = Wallet(c);
+	WalletPanel(currencyCount, w);
 	return 0;
 }
 
-void WalletPanel(int cc)
+void WalletPanel(int cc, Wallet wallet)
 {
 	bool isExiting = false;
 	while (!isExiting)
@@ -23,7 +23,7 @@ void WalletPanel(int cc)
 		cout << "    Welcome to Wallet Manager    " << endl;
 		cout << " You have " << cc << " currencies" << endl;
 		cout << "---------------------------------" << endl;
-		printCurrencies();
+		printCurrencies(wallet);
 
 		cout << "1) Add money" << endl;
 		cout << "2) Withdraw money" << endl;
@@ -32,9 +32,9 @@ void WalletPanel(int cc)
 		int input = takeNumberInput(4);
 		switch (input)
 		{
-		case 1: addMoney();  break;
-		case 2: withdrawMoney();  break;
-		case 3: clearWallet(); break;
+		case 1: addMoney(wallet);  break;
+		case 2: withdrawMoney(wallet);  break;
+		case 3: clearWallet(wallet); break;
 		case 4: isExiting = true; break;
 		}
 
@@ -42,18 +42,19 @@ void WalletPanel(int cc)
 	}
 }
 
-void printCurrencies()//wallet w
+void printCurrencies(Wallet w)
 {
 	for (int ind = 0; ind < 5; ind++)
 	{
-		//if w.checkCurrency(0);
-		//cout << w[0];
+		if (w.isEmptyCurrency(static_cast<Wallet::CurrencyType> (ind) ) )
+			cout << w[ind];
 	}
 }
 
 int takeNumberInput(int range)
 {
 	int chosen = -1;
+	cout << endl;
 	do
 	{
 		cout << "Enter a valid number: ";
@@ -91,7 +92,7 @@ double takeValueInput()
 	return chosen;
 }
 
-void addMoney() // wallet w
+void addMoney(Wallet w) // wallet w
 {
 	cout << "What currency are you adding to your wallet?" << endl;
 	cout << "1) US Dollars " << endl;
@@ -104,10 +105,11 @@ void addMoney() // wallet w
 	if (input == 6)
 		return;
 
-	cout << "How much " << /* Wallet[input].getWholeName << */ "do you want to add? " << endl;
-	int wholeAddition = 0;
-	int fractionAddition = 0;
-	double addition = takeValueInput();
+	cout << "How much " << w[input].getName() << "do you want to add? " << endl;
+	cin >> w[input];
+	//int wholeAddition = 0;
+	//int fractionAddition = 0;
+	//double addition = takeValueInput();
 
 	//TURN VALUE INPUT INTO wholeAddition and fractionAddition
 
@@ -123,7 +125,7 @@ void addMoney() // wallet w
 	system("CLS");
 }
 
-void withdrawMoney()
+void withdrawMoney(Wallet w)
 {
 	cout << "What currency are you withdrawing from your wallet?" << endl;
 	cout << "1) US Dollars " << endl;
@@ -161,7 +163,7 @@ void withdrawMoney()
 	system("CLS");
 }
 
-void clearWallet()
+void clearWallet(Wallet w)
 {
 
 }
