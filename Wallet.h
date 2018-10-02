@@ -1,45 +1,101 @@
-#pragma once
-#include "Currency.h"
+#include "Wallet.h"
 
-class Wallet
+Wallet::Wallet(Currency currencies[])
 {
-private:
-	Currency c[];
-public:
-	enum CurrencyType { DOLLAR, EURO, YEN, RUPEE, YUAN };
-	Wallet(Currency c[]);
+	c[1] = currencies[1];
+}
 
-	/*
-	Gives the count of non zero currencies
-	*/
-	int nonZeroCurrencyCount();
+Currency& Wallet::operator [](int index)
+{
+	switch (index)
+	{
+	case 1: return c[1];
+	case 2: return c[2];
+	case 3: return c[3];
+	case 4: return c[4];
+	case 5: return c[5];
+	default: exit(1);
+	}
+}
 
-	/*
-	Checks if a currency is empty of value
-	*/
-	bool isEmptyCurrency(CurrencyType cT);
-	
-	/*
-	Adds a currency value to the right object
-	*/
-	void addCurrency(CurrencyType cT, int whole, int fraction);
+bool Wallet::isEmptyCurrency(CurrencyType cT)
+{
+	switch (cT)
+	{
+	case DOLLAR:
+		return c[1].getWholeParts() == 0 && c[1].getFractionalParts() == 0;
+	case EURO:
+		return c[2].getWholeParts() == 0 && c[2].getFractionalParts() == 0;
+	case YEN:
+		return c[3].getWholeParts() == 0 && c[3].getFractionalParts() == 0;
+	case RUPEE:
+		return c[4].getWholeParts() == 0 && c[4].getFractionalParts() == 0;
+	case YUAN:
+		return c[5].getWholeParts() == 0 && c[5].getFractionalParts() == 0;
+	}
+}
 
-	/*
-	Removes a currency value from the right object
-	THIS HAS TO BE USED ONLY AFTER IT HAS BEEN CONFIRMED THAT THE VALUE PASSED CAN BE REMOVED
-	(so it doesnt reach a negative value)
-	*/
-	void removeCurrency(CurrencyType cT, int whole, int fraction);
+int Wallet::nonZeroCurrencyCount()
+{
+	int count = 0;
+	for (int ind = 0; ind < 5; ind++)
+	{
+		CurrencyType type = static_cast<CurrencyType> (ind);
+		if (isEmptyCurrency(type))
+			count++;
+	}
+	return count;
+}
 
-	/*
-	This clears all the money from the wallet
-	*/
-	void emptyWallet();
+void Wallet::addCurrency(CurrencyType cT, int whole, int fraction)
+{
+	Currency cur;
+	switch (cT)
+	{
+	case DOLLAR:
+		cur = Dollar();
+		cur.setWholeParts(whole);
+		cur.setFractionalParts(fraction);
+		c[1] = c[1] + cur;
+		break;
+	case EURO:
+		cur = Euro();
+		cur.setWholeParts(whole);
+		cur.setFractionalParts(fraction);
+		c[2] = c[2] + cur;
+		break;
+	case YEN:
+		cur = Yen();
+		cur.setWholeParts(whole);
+		cur.setFractionalParts(fraction);
+		c[3] = c[3] + cur;
+		break;
+	case RUPEE:
+		cur = Rupee();
+		cur.setWholeParts(whole);
+		cur.setFractionalParts(fraction);
+		c[4] = c[4] + cur;
+		break;
+	case YUAN:
+		cur = Yuan();
+		cur.setWholeParts(whole);
+		cur.setFractionalParts(fraction);
+		c[5] = c[5] + cur;
+		break;
+	}
+}
 
-	/*
-	This tells if the wallet is empty of money
-	*/
-	bool isEmpty();
+void Wallet::removeCurrency(CurrencyType cT, int whole, int fraction)
+{
 
-	Currency& operator [](int index);
-};
+}
+
+void Wallet::emptyWallet()
+{
+
+}
+
+bool Wallet::isEmpty()
+{
+
+}
