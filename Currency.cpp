@@ -1,39 +1,41 @@
 #include "Currency.h"
 #include <iostream>
+#include <iomanip>
 
-/*
+
 Currency::Currency() {
 	bigName = "DefCurrency";
 	littleName = "DefPortions";
 	units = 0;
 	parts = 0;
 }
-*/
 
-Currency& Currency::operator+(Currency const &obj) {
-	//Failsfe to ensure currencies of different types are not added
-	if (!(bigName.compare(obj.bigName) && littleName.compare(obj.littleName))) { throw "Currency type mismatch"; }
-	Currency* temp = new Currency(*this);
-	temp->units = units + obj.units;
-	temp->parts = parts + obj.parts;
-	temp->rollOver();
-	return *temp;
+
+
+Currency& Currency::operator+(Currency const obj) {
+	//Failsafe to ensure currencies of different types are not added
+	if (!(bigName.compare(obj.bigName) == 0 && littleName.compare(obj.littleName) == 0)) { throw "Currency type mismatch"; }
+	setWholeParts(units + obj.units);
+	setFractionalParts(parts + obj.parts);
+	rollOver();
+	return *this;
 }
 
-Currency& Currency::operator-(Currency const &obj) {
-	//Failsfe to ensure currencies of different types are not added
-	if (!(bigName.compare(obj.bigName) && littleName.compare(obj.littleName))) { throw "Currency type mismatch"; }
-	Currency* temp = new Currency(*this);
-	temp->units = units - obj.units;
-	temp->parts = parts - obj.parts;
-	temp->rollOver();
-	return *temp;
+
+Currency&  Currency::operator-(Currency const obj) {
+	//Failsafe to ensure currencies of different types are not added
+	if (!(bigName.compare(obj.bigName) == 0 && littleName.compare(obj.littleName) == 0)) { throw "Currency type mismatch"; }
+	setWholeParts(units - obj.units);
+	setFractionalParts(parts - obj.parts);
+	rollOver();
+	return *this;
 }
 
 
 std::ostream & operator<<(std::ostream & out, Currency & obj)
 {
-	out << obj.getWholeParts() << " " << obj.getName() << "(s) and " << obj.getFractionalParts() << " " << obj.getPortionName() << "(s)";
+	out << std::left << std::setw(5) << obj.getWholeParts() << " " << std::right << std::setw(10) << obj.getName() << "(s) and "
+		<< std::left << std::setw(5) << obj.getFractionalParts() << " " << std::right << std::setw(10) << obj.getPortionName() << "(s)\n";
 	return out;
 }
 
@@ -49,6 +51,11 @@ std::istream& operator>>(std::istream& in, Currency& obj) {
 
 void Currency::rollOver() {
 	units += parts / 100;
+	while (parts < 0)
+	{
+		units--;
+		parts += 100;
+	}
 	parts %= 100;
 }
 
