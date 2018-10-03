@@ -5,8 +5,9 @@ protected:
 	std::string bigName, littleName;
 	int units, parts;
 public:
-	//Currency();
+	Currency();
 
+	//a method that fixes the values of units and parts of currency to be accurate to how money works
 	void rollOver();
 
 	std::string getName() { return bigName; }
@@ -18,9 +19,13 @@ public:
 	void setWholeParts(int);
 	void setFractionalParts(int);
 
-	Currency& operator+(Currency const &obj);
-	Currency& operator-(Currency const &obj);
-	friend std::ostream& operator<<(std::ostream& out, const Currency& obj);
+	//adds the value of money from another object of the same money type
+	Currency& operator+(Currency const obj);
+	//subtracts the value of money from another object of the same money type
+	Currency& operator-(Currency const obj);
+	//turns object into string for output 
+	friend std::ostream& operator<<(std::ostream& out, Currency& obj);
+	//reads in values into money object
 	friend std::istream& operator>>(std::istream& in, Currency& obj);
 };
 
@@ -44,4 +49,3 @@ class Yuan : public Currency {
 public:
 	Yuan();
 };
-
