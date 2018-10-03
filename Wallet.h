@@ -17,7 +17,7 @@ public:
 	/*
 	Checks if a currency is empty of value
 	*/
-	bool isEmptyCurrency(CurrencyType cT);
+	bool isEmptyCurrency(int currencyIndex);
 	
 	/*
 	Adds a currency value to the right object
