@@ -13,49 +13,38 @@ Currency::Currency() {
 Currency& Currency::operator+(Currency const &obj) {
 	//Failsfe to ensure currencies of different types are not added
 	if (!(bigName.compare(obj.bigName) && littleName.compare(obj.littleName))) { throw "Currency type mismatch"; }
-	Currency temp;
-	temp.units = units + obj.units;
-	temp.parts = parts + obj.parts;
-	temp.rollOver();
-	return temp;
+	Currency* temp = new Currency(*this);
+	temp->units = units + obj.units;
+	temp->parts = parts + obj.parts;
+	temp->rollOver();
+	return *temp;
 }
 
 Currency& Currency::operator-(Currency const &obj) {
 	//Failsfe to ensure currencies of different types are not added
 	if (!(bigName.compare(obj.bigName) && littleName.compare(obj.littleName))) { throw "Currency type mismatch"; }
-	Currency temp;
-	temp.units = units - obj.units;
-	temp.parts = parts - obj.parts;
-	temp.rollOver();
-	return temp;
+	Currency* temp = new Currency(*this);
+	temp->units = units - obj.units;
+	temp->parts = parts - obj.parts;
+	temp->rollOver();
+	return *temp;
 }
 
 
-std::ostream & operator<<(std::ostream & out, const Currency & obj)
+std::ostream & operator<<(std::ostream & out, Currency & obj)
 {
-	out << obj.getWholeParts << " " << obj.getName << "(s) and " << obj.getFractionalParts << " " << obj.getPortionName << "(s)";
+	out << obj.getWholeParts() << " " << obj.getName() << "(s) and " << obj.getFractionalParts() << " " << obj.getPortionName() << "(s)";
 	return out;
 }
 
 std::istream& operator>>(std::istream& in, Currency& obj) {
 	
-	/*
 	int iTemp;
-	std::string sTemp;
-	in >> sTemp;
-	obj.setName(sTemp);
-	in >> sTemp;
-	obj.setPortionName(sTemp);
 	in >> iTemp;
 	obj.setWholeParts(iTemp);
 	in >> iTemp;
 	obj.setFractionalParts(iTemp);
-	*/
-	double temp; //example: 10.25
-	in >> temp;
-	temp *= 100;
-	int wholeAddition;
-
+	return in;
 }
 
 void Currency::rollOver() {
