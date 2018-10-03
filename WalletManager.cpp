@@ -1,15 +1,22 @@
 #include <iostream>
-#include <iomanip>
-#include <string>
+//#include <iomanip>
+//#include <string>
 #include "Currency.h"
 #include "Wallet.h"
 
 using namespace std;
 
+void WalletPanel(int cc, Wallet wallet);
+void printCurrencies(Wallet w);
+int takeNumberInput(int range);
+double takeValueInput();
+void addMoney(Wallet w);
+void withdrawMoney(Wallet w);
+
 int main()
 {
 	int currencyCount = 0;
-	Currency c[5] = { Dollar() , Euro(), Yen(), Rupee(), Yuan()};
+	Currency c[5] = { Dollar() , Euro(), Yen(), Rupee(), Yuan() };
 	Wallet w = Wallet(c);
 	WalletPanel(currencyCount, w);
 	return 0;
@@ -21,7 +28,7 @@ void WalletPanel(int cc, Wallet wallet)
 	while (!isExiting)
 	{
 		cout << "    Welcome to Wallet Manager    " << endl;
-		cout << " You have " << cc << " currencies" << endl;
+		cout << "  You have " << cc << " currencies" << endl;
 		cout << "---------------------------------" << endl;
 		printCurrencies(wallet);
 
@@ -34,11 +41,10 @@ void WalletPanel(int cc, Wallet wallet)
 		{
 		case 1: addMoney(wallet);  break;
 		case 2: withdrawMoney(wallet);  break;
-		case 3: clearWallet(wallet); break;
+		case 3: wallet.emptyWallet(); break;
 		case 4: isExiting = true; break;
 		}
-
-		// cc = wallet.nonZeroCurrencyCount();
+		cc = wallet.nonZeroCurrencyCount();
 	}
 }
 
@@ -46,7 +52,7 @@ void printCurrencies(Wallet w)
 {
 	for (int ind = 0; ind < 5; ind++)
 	{
-		if (w.isEmptyCurrency(static_cast<Wallet::CurrencyType> (ind) ) )
+		if (w.isEmptyCurrency(static_cast<Wallet::CurrencyType> (ind)))
 			cout << w[ind];
 	}
 }
@@ -92,7 +98,7 @@ double takeValueInput()
 	return chosen;
 }
 
-void addMoney(Wallet w) // wallet w
+void addMoney(Wallet w)
 {
 	cout << "What currency are you adding to your wallet?" << endl;
 	cout << "1) US Dollars " << endl;
@@ -105,23 +111,22 @@ void addMoney(Wallet w) // wallet w
 	if (input == 6)
 		return;
 
-	cout << "How much " << w[input].getName() << "do you want to add? " << endl;
-	cin >> w[input];
-	//int wholeAddition = 0;
-	//int fractionAddition = 0;
-	//double addition = takeValueInput();
+	cout << "How much " << w[input].getName() << "(s) do you want to add? " << endl;
+	double addition = takeValueInput();
+	int wholeAddition = (int)addition;
+	int fractionAddition = (int)(addition * 100) % 100;
 
-	//TURN VALUE INPUT INTO wholeAddition and fractionAddition
 
 	switch (input)
 	{
-	case 1: //wallet.addTo(1, wholeAddition, fractionAddition); break;
-	case 2: //wallet.addTo(1, wholeAddition, fractionAddition); break;
-	case 3: //wallet.addTo(1, wholeAddition, fractionAddition); break;
-	case 4: //wallet.addTo(1, wholeAddition, fractionAddition); break;
-	case 5: //wallet.addTo(1, wholeAddition, fractionAddition); break;
-
+	case 1: w.addCurrency(1, wholeAddition, fractionAddition); break;
+	case 2: w.addCurrency(2, wholeAddition, fractionAddition); break;
+	case 3: w.addCurrency(3, wholeAddition, fractionAddition); break;
+	case 4: w.addCurrency(4, wholeAddition, fractionAddition); break;
+	case 5: w.addCurrency(5, wholeAddition, fractionAddition); break;
+		break;
 	}
+	cin.get();
 	system("CLS");
 }
 
@@ -138,32 +143,18 @@ void withdrawMoney(Wallet w)
 	if (input == 6)
 		return;
 
-	printCurrencies();
+	printCurrencies(w);
 
-	cout << "How much " << /* Wallet[input].getWholeName << */ "do you want to withdraw? " << endl;
-	int wholeAddition = 0;
-	int fractionAddition = 0;
+	cout << "How much " << w[input].getName() << "(s) do you want to withdraw? " << endl;
 	double addition = takeValueInput();
+	int wholeAddition = (int)addition;
+	int fractionAddition = (int)(addition * 100) % 100;
 
-	//TURN VALUE INPUT INTO wholeAddition and fractionAddition
 
-	//if its more than the amount in bank
-	// cout << " You cannot withdraw more than you have" << endl;
-	//  return;
+	if (w.removeCurrency(input - 1, wholeAddition, fractionAddition))
+		cout << "Withdrawal complete!" << endl;
+	else
+		cout << "That is too much money to withdraw!" << endl;
 
-	switch (input)
-	{
-	case 1: //wallet.addTo(1, wholeAddition, fractionAddition); break;
-	case 2: //wallet.addTo(1, wholeAddition, fractionAddition); break;
-	case 3: //wallet.addTo(1, wholeAddition, fractionAddition); break;
-	case 4: //wallet.addTo(1, wholeAddition, fractionAddition); break;
-	case 5: //wallet.addTo(1, wholeAddition, fractionAddition); break;
-
-	}
 	system("CLS");
-}
-
-void clearWallet(Wallet w)
-{
-
 }
