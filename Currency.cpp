@@ -10,6 +10,11 @@ Currency::Currency() {
 	parts = 0;
 }
 
+Currency::~Currency()
+{
+
+}
+
 
 
 Currency& Currency::operator+(Currency const obj) {
@@ -76,30 +81,59 @@ void Currency::setFractionalParts(int i)
 	parts = i;
 }
 
-Dollar::Dollar() {
+Dollar::Dollar()
+{
 	setName("Dollar");
 	setPortionName("Cent");
 	setWholeParts(0);
 	setFractionalParts(0);
 }
-Euro::Euro() {
+Euro::Euro()
+{
 	setName("Euro");
 	setPortionName("Cent");
 	setWholeParts(0);
 	setFractionalParts(0);
-}Yen::Yen() {
+}
+Yen::Yen()
+{
 	setName("Yen");
 	setPortionName("Sen");
 	setWholeParts(0);
 	setFractionalParts(0);
-}Rupee::Rupee() {
+}
+Rupee::Rupee()
+{
 	setName("Rupee");
 	setPortionName("Paise");
 	setWholeParts(0);
 	setFractionalParts(0);
-}Yuan::Yuan() {
+}
+Yuan::Yuan()
+{
 	setName("Yuan");
 	setPortionName("Fen");
 	setWholeParts(0);
 	setFractionalParts(0);
+}
+
+Dollar::~Dollar()
+{
+
+}
+Euro::~Euro()
+{
+
+}
+Yen::~Yen()
+{
+
+}
+Rupee::~Rupee()
+{
+
+}
+Yuan::~Yuan()
+{
+
 }
