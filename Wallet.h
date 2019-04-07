@@ -7,8 +7,8 @@ private:
 	Currency c[5];
 public:
 	enum CurrencyType { DOLLAR, EURO, YEN, RUPEE, YUAN };
-	Wallet(Currency c[]);
-
+	Wallet();
+	~Wallet();
 	/*
 	Gives the count of non zero currencies
 	*/
