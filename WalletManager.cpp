@@ -25,12 +25,20 @@ void withdrawMoney(Wallet *w);
 int main()
 {
 	int currencyCount = 0;
-	Currency c[5] = { Dollar() , Euro(), Yen(), Rupee(), Yuan() };
-	Wallet w = Wallet(c);
+	Wallet w = Wallet();
 	WalletPanel(currencyCount, &w);
+
+	w.~Wallet();
 	return 0;
 }
 
+/*
+Function: WalletPanel(int,Wallet)
+Description:
+	This is the main menu the user will interact with.
+	It shows the options the user has, and if they have added money to their wallet,
+	it shows the table of money they have.
+*/
 void WalletPanel(int cc, Wallet *wallet)
 {
 	bool isExiting = false;
@@ -75,7 +83,12 @@ void printCurrencies(Wallet w)
 	if(!w.isEmpty())
 		cout << "--------------------------------------------" << endl;
 }
-
+/*
+Function: takeNumberInput(int)
+Description: This function takes an int input from the user,
+and doesnt allow any other type of input to be put in.
+It also only allows input from a range given by its parameter
+*/
 int takeNumberInput(int range)
 {
 	int chosen = -1;
@@ -96,7 +109,11 @@ int takeNumberInput(int range)
 	system("CLS");
 	return chosen;
 }
-
+/*
+Function: takeNumberInput(int)
+Description: This function takes a double input from the user,
+and doesnt allow any other type of input to be put in.
+*/
 double takeValueInput()
 {
 	double chosen = -1;
@@ -116,7 +133,11 @@ double takeValueInput()
 	system("CLS");
 	return chosen;
 }
-
+/*
+Function: addMoney(Wallet)
+Description: This function asks the user for what currency type 
+they want to add to their wallet, and how much they want to add.
+*/
 void addMoney(Wallet *w)
 {
 	cout << "What currency are you adding to your wallet?" << endl;
@@ -139,7 +160,12 @@ void addMoney(Wallet *w)
 
 	system("CLS");
 }
-
+/*
+Function: withdraw(Wallet)
+Description: This function asks the user for what currency type
+they want to withdraw from their wallet, and how much they want to withdraw.
+It doesn't let them do so if they try to withdraw more than they have.
+*/
 void withdrawMoney(Wallet *w)
 {
 	cout << "What currency are you withdrawing from your wallet?" << endl;
@@ -165,4 +191,6 @@ void withdrawMoney(Wallet *w)
 		cout << "Withdrawal complete!" << endl;
 	else
 		cout << "That is too much money to withdraw!" << endl;
+
+	cout << "--------------------------------------------" << endl;
 }
