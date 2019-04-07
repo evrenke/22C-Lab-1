@@ -6,6 +6,7 @@ protected:
 	int units, parts;
 public:
 	Currency();
+	virtual ~Currency();
 
 	//a method that fixes the values of units and parts of currency to be accurate to how money works
 	void rollOver();
@@ -32,20 +33,25 @@ public:
 class Dollar: public Currency {
 public:
 	Dollar();
+	~Dollar();
 };
 class Euro : public Currency {
 public:
 	Euro();
+	~Euro();
 };
 class Yen : public Currency {
 public:
 	Yen();
+	~Yen();
 };
 class Rupee : public Currency {
 public:
 	Rupee();
+	~Rupee();
 };
 class Yuan : public Currency {
 public:
 	Yuan();
+	~Yuan();
 };
