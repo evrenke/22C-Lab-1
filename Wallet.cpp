@@ -1,13 +1,22 @@
 #include "Wallet.h"
 #include <iostream>
 
-Wallet::Wallet(Currency currencies[])
+Wallet::Wallet()
 {
-	c[0] = currencies[0];
-	c[1] = currencies[1];
-	c[2] = currencies[2];
-	c[3] = currencies[3];
-	c[4] = currencies[4];
+	c[0] = Dollar();
+	c[1] = Euro();
+	c[2] = Yen();
+	c[3] = Rupee();
+	c[4] = Yuan();
+}
+
+Wallet::~Wallet()
+{
+	c[0].~Currency();
+	c[1].~Currency();
+	c[2].~Currency();
+	c[3].~Currency();
+	c[4].~Currency();
 }
 
 Currency& Wallet::operator [](int index)
